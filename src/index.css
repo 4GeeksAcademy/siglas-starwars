@@ -1,0 +1,56 @@
+.scroll-container {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cards-wrapper {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem;
+  gap: 1.5rem;
+  scroll-behavior: smooth;
+
+  /* Barra de desplazamiento personalizada */
+  scrollbar-width: thin;
+  scrollbar-color: #6c757d #f1f1f1;
+}
+
+/* Estilo para Chrome, Edge, Safari */
+.cards-wrapper::-webkit-scrollbar {
+  height: 10px;
+}
+
+.cards-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.cards-wrapper::-webkit-scrollbar-thumb {
+  background: #6c757d;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+.cards-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #5a6268;
+}
+
+.card-item {
+  flex: 0 0 18rem;
+  min-width: 18rem;
+}
+
+
+
+
+/* HorizontalScroll.css (opcional) */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
+}
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #6c757d;
+  border-radius: 4px;
+}
