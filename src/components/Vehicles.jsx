@@ -11,7 +11,22 @@ const Vehicles = () => {
       navigate(`/detailvehicles/`+uid)
   }
 
+const handlerFavoritosVehicles = (uid,name,url)=>{
+    let encontrado = store.favoritos.find((ele)=> ele.uid=== uid && ele.url===url)
+    if(encontrado){
+      alert("Este Vehiculo ya Existe en Favoritos")
+      return
+    }
+    const obj={
+      description : name,
+      uid: uid,
+      url: url
+    }
+    dispatch({type: "ADD_FAVORITOS", payload: obj})
+  }
+
   useEffect(() => {
+    if(store.vehicles.length>0) return
     const getVehicles = async () => {
       try {
         let response = await fetch("https://www.swapi.tech/api/vehicles")
@@ -28,7 +43,7 @@ const Vehicles = () => {
 
     }
     getVehicles()
-  }, [])
+  }, [store.vehicles.length, dispatch])
 
  
 
@@ -66,7 +81,7 @@ const Vehicles = () => {
                   <div className="d-flex justify-content-between align-items-center mt-auto">
                     <button className="btn btn-primary btn-sm" onClick={() => handlerDetail(user.uid)}>Learn more!</button>
                     <button className="btn btn-outline-danger btn-sm p-1">
-                      <i className="bi bi-heart"></i>
+                      <i className="bi bi-heart" onClick={()=> handlerFavoritosVehicles(user.uid,user.name,"/detailvehicles/")}></i>
                     </button>
                   </div>
                 </div>

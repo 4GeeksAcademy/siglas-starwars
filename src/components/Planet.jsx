@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
+
 const Planet = () => {
   const navigate = useNavigate()
   const { store, dispatch } = useGlobalReducer()
@@ -11,7 +12,23 @@ const Planet = () => {
       navigate(`/detailplanets/`+uid)
   }
 
+ const handlerFavoritosPlanets = (uid,name,url)=>{
+    let encontrado = store.favoritos.find((ele)=> ele.uid=== uid && ele.url===url)
+    if(encontrado){
+      alert("Este Planeta ya Existe en favoritos")
+      return
+    }
+    const obj={
+      description : name,
+      uid: uid,
+      url: url
+    }
+    dispatch({type: "ADD_FAVORITOS", payload: obj})
+    
+  }
+
   useEffect(() => {
+    if(store.planet.length>0) return
     const getPlanet = async () => {
       try {
         let response = await fetch("https://www.swapi.tech/api/planets")
@@ -28,7 +45,7 @@ const Planet = () => {
 
     }
     getPlanet()
-  }, [])
+  }, [store.planet.length, dispatch])
 
  
 
@@ -67,7 +84,7 @@ const Planet = () => {
                   <div className="d-flex justify-content-between align-items-center mt-auto">
                     <button className="btn btn-primary btn-sm" onClick={() => handlerDetail(user.uid)}>Learn more!</button>
                     <button className="btn btn-outline-danger btn-sm p-1">
-                      <i className="bi bi-heart"></i>
+                      <i className="bi bi-heart" onClick={()=> handlerFavoritosPlanets(user.uid,user.name,"/detailplanets/")}></i>
                     </button>
                   </div>
                 </div>

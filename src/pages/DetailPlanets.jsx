@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export const DetailPlanets = () => {
   const { uid } = useParams()
@@ -139,6 +139,9 @@ export const DetailPlanets = () => {
 
           </div>
         </div>
+        <Link to="/">
+          <span className="navbar-brand mb-0 h1">Return</span>
+        </Link> 
       </div>
 
 

@@ -1,27 +1,34 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import Busqueda from "./Busqueda.jsx";
 
 const People = () => {
   const navigate = useNavigate()
   const { store, dispatch } = useGlobalReducer()
-  
 
-  const handlerDetail = (uid)=>{
-      navigate(`/detailpeople/`+uid)
+
+  const handlerDetail = (uid) => {
+    navigate(`/detailpeople/` + uid)
   }
 
-  const handlerFavoritos = (uid,name,url)=>{
-    const obj={
-      description : name,
+  const handlerFavoritos = (uid, name, url) => {
+    let encontrado = store.favoritos.find((ele) => ele.uid === uid && ele.url === url)
+    if (encontrado) {
+      alert("Esta Persona ya Existe en favoritos")
+      return
+    }
+    const obj = {
+      description: name,
       uid: uid,
       url: url
     }
-    dispatch({type: "ADD_FAVORITOS", payload: obj})
-    
+    dispatch({ type: "ADD_FAVORITOS", payload: obj })
+
   }
 
   useEffect(() => {
+    if (store.people.length > 0) return
     const getPeople = async () => {
       try {
         let response = await fetch("https://www.swapi.tech/api/people")
@@ -38,7 +45,7 @@ const People = () => {
 
     }
     getPeople()
-  }, [])
+  }, [store.people.length, dispatch])
 
   /* 	const users = [
       { id: 1, name: 'Skaiwalker', img: 'men/15.jpg' },
@@ -56,15 +63,21 @@ const People = () => {
   return (
     <div className="container my-3">
       <h3 className="mb-3">Personajes</h3>
-
-      {/* Contenedor con borde y scroll */}
+      <div className="mb-2">
+        <label for="exampleDataList" class="form-label">Search...</label>
+        <input className="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." />
+        <datalist id="datalistOptions">
+          <option value="Personaje 1" />
+          <option value="Planeta 2" />
+          <option value="Vehiculo 3"/>
+        </datalist>
+      </div>
       <div className="border rounded-3 overflow-hidden bg-light p-3 shadow-sm">
 
-
+<Busqueda/>
         <div
           className="d-flex gap-3 overflow-x-auto pb-3"
           style={{
-            // Solo esta línea es "CSS extra" (opcional para barra más bonita)
             scrollbarWidth: 'thin',
           }}
         >
@@ -89,7 +102,7 @@ const People = () => {
                   <div className="d-flex justify-content-between align-items-center mt-auto">
                     <button className="btn btn-primary btn-sm" onClick={() => handlerDetail(user.uid)}>Learn more!</button>
                     <button className="btn btn-outline-danger btn-sm p-1">
-                      <i className="bi bi-heart" onClick={()=>handlerFavoritos(user.uid,user.name,"/detailpeople/")}></i>
+                      <i className="bi bi-heart" onClick={() => handlerFavoritos(user.uid, user.name, "/detailpeople/")}></i>
                     </button>
                     {/* 										<button className="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center p-0"
 											style={{ width: '32px', height: '32px' }}>

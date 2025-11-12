@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams, Link } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 export const DetailPeople = () => {
   const { uid } = useParams()
   const [detailPeople, setDetailpeople] = useState({})
@@ -9,6 +9,7 @@ export const DetailPeople = () => {
   const [planetas, setPlanetas] = useState([])
   const [naves, setNaves] = useState([])
   const [vehicles, setVehicles] = useState([])
+  const {store,dispatch} = useGlobalReducer()
   useEffect(() => {
     const getDetail = async () => {
       if (!uid) return;
@@ -220,37 +221,34 @@ export const DetailPeople = () => {
             <div className="col-6 col-md px-3 border-end border-secondary">
               <h6 className="text-uppercase text-secondary mb-2 fw-semibold">Vehicles</h6>
               <ul className="list-unstyled mb-0">
-                {vehicles.map((ele, index) => (
+                {(vehicles.length>0)?vehicles.map((ele, index) => (
                   <div key={index}>
                     <li><small className="text-danger">{ele.name}</small></li>
-
                   </div>
-
-                ))}
+                )):<small className="text-danger">n/a</small>}
               </ul>
             </div>
 
             <div className="col-6 col-md px-3 border-end border-secondary">
               <h6 className="text-uppercase text-secondary mb-2 fw-semibold">Starships</h6>
               <ul className="list-unstyled mb-0">
-                {naves.map((ele, index) => (
+                {(naves.length>0)?naves.map((ele, index) => (
                   <div key={index}>
                     <li><small className="text-danger">{ele.name}</small></li>
-
                   </div>
-                ))}
+                )):<small className="text-danger">n/a</small>}
               </ul>
             </div>
             <div className="col-6 col-md px-3 border-end border-secondary">
               <h6 className="text-uppercase text-secondary mb-2 fw-semibold">Planeta</h6>
               <ul className="list-unstyled mb-0">
-                {planetas.map((ele, index) => (
+                {(planetas.length>0)?planetas.map((ele, index) => (
                   <div key={index}>
                     <li><small className="text-danger">{ele.name}</small></li>
 
 
                   </div>
-                ))}
+                )):<small className="text-danger">n/a</small>}
               </ul>
             </div>
 
@@ -262,10 +260,12 @@ export const DetailPeople = () => {
 
           </div>
         </div>
+
+				<Link to="/">
+					<span className="navbar-brand mb-0 h1">Return</span>
+				</Link> 
       </div>
-
-
-
+  
 
 
 
