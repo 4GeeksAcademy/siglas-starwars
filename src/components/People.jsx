@@ -74,7 +74,7 @@ const People = () => {
       </div>
       <div className="border rounded-3 overflow-hidden bg-light p-3 shadow-sm">
 
-<Busqueda/>
+{/* <Busqueda/> */}
         <div
           className="d-flex gap-3 overflow-x-auto pb-3"
           style={{
